@@ -1,3 +1,8 @@
+curl (7.54.1-1) stable; urgency=low
+
+  * curl 7.54.1 slim package compiled with gnutls
+
+ -- Fernando Ortiz <nandub+appimage@nandub.info>  Mon, 6 Apr 2020  0:47:51 -0500
 curl (7.54.0-1) stable; urgency=low
 
   * curl 7.54.0 slim package compiled with gnutls
