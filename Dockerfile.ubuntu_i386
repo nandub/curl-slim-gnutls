@@ -1,0 +1,21 @@
+FROM daald/ubuntu32:trusty
+#FROM nandub/ubuntu-i386:14.04
+LABEL maintainer "Fernando Ortiz <nandub+appimage@nandub.info>"
+
+ENV DEBIAN_FRONTEND noninteractive
+
+RUN apt-get update \
+    && apt-get -y --no-install-recommends install \
+    build-essential \
+    debhelper \
+    dpkg-dev \
+    fakeroot
+#    && rm -rf /var/lib/apt/lists/*
+
+COPY pkg.sh /
+
+VOLUME files
+VOLUME debian
+
+ENTRYPOINT [ "/bin/bash" ]
+CMD [ "/pkg.sh" ]

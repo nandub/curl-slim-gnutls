@@ -1,0 +1,82 @@
+#!/usr/bin/env bash
+
+rm -f debian/changelog
+touch debian/changelog
+
+NAME="Fernando Ortiz"
+EMAIL=nandub+appimage@nandub.info
+
+docker images | grep 'build_curl_slim' >/dev/null
+if [ ! "$?" = "0" ]; then
+  docker build -t nandub/build_curl_slim:latest -f Dockerfile.centos .
+fi
+docker images | grep 'deb_curl_slim' >/dev/null
+if [ ! "$?" = "0" ]; then
+  docker build -t nandub/deb_curl_slim:latest -f Dockerfile.ubuntu .
+fi
+docker images | grep 'deb_curl_slim_i386' >/dev/null
+if [ ! "$?" = "0" ]; then
+  docker build -t nandub/deb_curl_slim_i386:latest -f Dockerfile.ubuntu_i386 .
+fi
+
+build_git=$1
+
+if [ "${build_git}" = "reset" ]; then
+  rm curl_versions
+  shift
+  build_git=$1
+fi
+
+set -e
+
+# For now blacklist the versions that fails to compile.
+blacklisted_version_allowed() {
+  local v=$1
+  blacklisted="7.45.0 7.46.0 7.47.0 7.47.1 7.66.0 7.67.0 7.68.0"
+  #blacklisted=""
+  for b in ${blacklisted}
+  do
+    if [ "${b}" = "${v}" ]; then
+      return 0
+    fi
+  done
+  return 1
+}
+
+if [ ! -f curl_versions ]; then 
+  curl_versions=$(curl -sS https://curl.haxx.se/download/ | sed 's/<\/*[^>]*>/ /g' | awk '{print $1}' | grep -v '.asc' | grep '.gz' | sed -E 's/curl-|.tar.gz//g')
+  echo ${curl_versions} > curl_versions
+else
+  curl_versions=$(cat curl_versions)
+fi
+for ver in ${curl_versions}
+do
+  DATE_TIME="$(date +"%a, %-d %b %Y %k:%M:%S %z")"
+  if [ -f "$(pwd)/files/curl_${ver}-1_amd64.deb" ]; then
+    filedt=$(stat -f "%SB" $(pwd)/files/curl_${ver}-1_amd64.deb)
+    DATE_TIME=$(date -jf "%b  %d %k:%M:%S %Y" "${filedt}" +"%a, %-d %b %Y %k:%M:%S %z")
+  fi
+  if ! `blacklisted_version_allowed ${ver}`; then
+    cat debian/changelog_templ | sed "s/VERSION/${ver}/" | sed "s/NAME/${NAME}/" | sed "s/EMAIL/${EMAIL}/" | sed "s/DATE_TIME/${DATE_TIME}/" > debian/changelog_new
+    cat debian/changelog >> debian/changelog_new
+    cat debian/changelog_new > debian/changelog
+  fi
+  if [ ! -f "$(pwd)/files/curl_${ver}-1_amd64.deb" ]; then
+    if ! `blacklisted_version_allowed ${ver}`; then
+      echo PROCESS ${ver}
+      docker run --rm -it --name build_curl_slim -v$(pwd)/debian:/debian -v$(pwd)/files:/files nandub/build_curl_slim:latest ${ver}
+      echo BUILD STATUS: $? 
+      docker run --rm -it --name deb_curl_slim -v$(pwd)/debian:/debian -v$(pwd)/files:/files nandub/deb_curl_slim:latest
+      echo DEB x86_64 BUILD STATUS: $?
+      docker run --rm -it --name deb_curl_slim_i386 -v$(pwd)/debian:/debian -v$(pwd)/files:/files nandub/deb_curl_slim_i386:latest
+      echo DEB i386 BUILD STATUS: $?
+    fi
+  else
+    echo "VERSION ${ver} processed already."
+    if [ "${build_git}" = "1" ]; then
+      echo ${ver} > CURL_VERSION
+      git add .
+      git commit -a -m "Version ${ver}"
+    fi
+  fi
+done

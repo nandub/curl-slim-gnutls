@@ -1,0 +1,5 @@
+curl (VERSION-1) stable; urgency=low
+
+  * curl VERSION slim package compiled with gnutls
+
+ -- NAME <EMAIL>  DATE_TIME

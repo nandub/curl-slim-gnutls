@@ -1,0 +1,32 @@
+FROM centos:6.7
+LABEL maintainer "Fernando Ortiz <nandub+appimage@nandub.info>"
+
+RUN yum -y install \
+    bzip2 \
+    file \
+    gcc \
+    gcc-c++ \
+    make \
+    libgcrypt-devel \
+    gnutls-devel \
+    perl \
+    tar \
+    wget \
+    && yum -y install libgcc.i686 \
+    libgcrypt-devel.i686 \
+    glibc-devel.i686 \
+    gnutls-devel.i686 \
+    zlib-devel.i686
+
+WORKDIR /root
+
+COPY CURL_VERSION build-libcurl.sh /root/
+
+RUN chmod +x /root/build-libcurl.sh
+
+VOLUME files
+VOLUME debian
+
+ENTRYPOINT ["/bin/bash", "/root/build-libcurl.sh"]
+
+CMD ["/root/build-libcurl.sh"]

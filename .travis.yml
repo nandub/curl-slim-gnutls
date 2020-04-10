@@ -1,0 +1,23 @@
+sudo: required
+
+language: none 
+
+services:
+  - docker
+ 
+before_install:
+  - mkdir -p $(pwd)/files
+  - docker build -t nandub/build_curl_slim -f Dockerfile.centos .
+  - docker run --rm -it --name build_curl_slim -v$(pwd)/debian:/debian -v$(pwd)/files:/files nandub/build_curl_slim
+  - docker build -t nandub/deb_curl_slim -f Dockerfile.ubuntu .
+  - docker run --rm -it --name deb_curl_slim -v$(pwd)/debian:/debian -v$(pwd)/files:/files nandub/deb_curl_slim
+  - docker build -t nandub/deb_curl_slim_i386 -f Dockerfile.ubuntu_i386 .
+  - docker run --rm -it --name deb_curl_slim_i386 -v$(pwd)/debian:/debian -v$(pwd)/files:/files nandub/deb_curl_slim_i386  
+
+script:
+  - ls -lh $(pwd)/files
+  - ./bintray_upload.sh $(pwd)/files
+
+branches:
+  only:
+    - curl/master

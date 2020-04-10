@@ -1,0 +1,34 @@
+#!/usr/bin/make -f
+
+#libcurl = libcurl.so.4.4.0
+libcurl = $(shell ./debian/binversion.sh)
+ifeq ($(DEB_HOST_ARCH),amd64)
+curl_arch = x86_64
+else
+curl_arch = i686
+endif
+curl_b64 = debian/curl_$(curl_arch).centos6.7.b64
+libcurl_b64 = debian/$(libcurl)_$(curl_arch).centos6.7.b64
+
+
+%:
+	dh $@
+
+override_dh_auto_configure:
+override_dh_auto_build:
+override_dh_auto_install:
+override_dh_auto_test:
+
+override_dh_install:
+	mkdir -p debian/curl/usr/bin
+	mkdir -p debian/libcurl3/usr/lib
+	base64 -d $(curl_b64) > debian/curl/usr/bin/curl
+	base64 -d $(libcurl_b64) > debian/libcurl3/usr/lib/$(libcurl)
+	chmod a+x debian/curl/usr/bin/curl
+	ln -s $(libcurl) debian/libcurl3/usr/lib/libcurl.so.4
+	ln -s libcurl.so.4 debian/libcurl3/usr/lib/libcurl.so.3
+	ln -s libcurl.so.4 debian/libcurl3/usr/lib/libcurl-gnutls.so.4
+	ln -s libcurl.so.4 debian/libcurl3/usr/lib/libcurl-gnutls.so.3
+	ln -s libcurl.so.4 debian/libcurl3/usr/lib/libcurl-nss.so.4
+	ln -s libcurl.so.4 debian/libcurl3/usr/lib/libcurl-nss.so.3
+
