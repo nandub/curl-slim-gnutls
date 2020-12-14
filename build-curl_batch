@@ -30,11 +30,10 @@ fi
 set -e
 
 # For now blacklist the versions that fails to compile.
-blacklisted_version_allowed() {
+check_blacklist() {
   local v=$1
-  blacklisted="7.45.0 7.46.0 7.47.0 7.47.1 7.66.0 7.67.0 7.68.0"
-  #blacklisted=""
-  for b in ${blacklisted}
+  blacklist="$(curl_blacklist) 7.45.0 7.46.0 7.47.0 7.47.1 7.66.0 7.67.0 7.68.0"
+  for b in ${blacklist}
   do
     if [ "${b}" = "${v}" ]; then
       return 0
@@ -43,8 +42,13 @@ blacklisted_version_allowed() {
   return 1
 }
 
+curl_blacklist() {
+  curl_too_old=$(tac blacklist-too_old)
+  echo ${curl_too_old}
+}
+
 if [ ! -f curl_versions ]; then 
-  curl_versions=$(curl -sS https://curl.haxx.se/download/ | sed 's/<\/*[^>]*>/ /g' | awk '{print $1}' | grep -v '.asc' | grep '.gz' | sed -E 's/curl-|.tar.gz//g')
+  curl_versions=$(curl -sS https://curl.haxx.se/download/ | grep href | tr '<' '\n' | tr '>' '\n' | grep tar.gz | grep curl | sed -E 's/a href="|"|download\/|archeology\/|curl-|.tar.gz//g' | tac)
   echo ${curl_versions} > curl_versions
 else
   curl_versions=$(cat curl_versions)
@@ -56,13 +60,13 @@ do
     filedt=$(stat -f "%SB" $(pwd)/files/curl_${ver}-1_amd64.deb)
     DATE_TIME=$(date -jf "%b  %d %k:%M:%S %Y" "${filedt}" +"%a, %-d %b %Y %k:%M:%S %z")
   fi
-  if ! `blacklisted_version_allowed ${ver}`; then
+  if ! `check_blacklist ${ver}`; then
     cat debian/changelog_templ | sed "s/VERSION/${ver}/" | sed "s/NAME/${NAME}/" | sed "s/EMAIL/${EMAIL}/" | sed "s/DATE_TIME/${DATE_TIME}/" > debian/changelog_new
     cat debian/changelog >> debian/changelog_new
     cat debian/changelog_new > debian/changelog
   fi
   if [ ! -f "$(pwd)/files/curl_${ver}-1_amd64.deb" ]; then
-    if ! `blacklisted_version_allowed ${ver}`; then
+    if ! `check_blacklist ${ver}`; then
       echo PROCESS ${ver}
       docker run --rm -it --name build_curl_slim -v$(pwd)/debian:/debian -v$(pwd)/files:/files nandub/build_curl_slim:latest ${ver}
       echo BUILD STATUS: $? 

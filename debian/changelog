@@ -1,3 +1,33 @@
+curl (7.74.0-1) stable; urgency=low
+
+  * curl 7.74.0 slim package compiled with gnutls
+
+ -- Fernando Ortiz <nandub+appimage@nandub.info>  Mon, 14 Dec 2020 12:35:12 -0600
+curl (7.73.0-1) stable; urgency=low
+
+  * curl 7.73.0 slim package compiled with gnutls
+
+ -- Fernando Ortiz <nandub+appimage@nandub.info>  Mon, 14 Dec 2020 12:31:58 -0600
+curl (7.72.0-1) stable; urgency=low
+
+  * curl 7.72.0 slim package compiled with gnutls
+
+ -- Fernando Ortiz <nandub+appimage@nandub.info>  Mon, 14 Dec 2020 12:28:45 -0600
+curl (7.71.1-1) stable; urgency=low
+
+  * curl 7.71.1 slim package compiled with gnutls
+
+ -- Fernando Ortiz <nandub+appimage@nandub.info>  Mon, 14 Dec 2020 12:25:34 -0600
+curl (7.71.0-1) stable; urgency=low
+
+  * curl 7.71.0 slim package compiled with gnutls
+
+ -- Fernando Ortiz <nandub+appimage@nandub.info>  Mon, 14 Dec 2020 12:22:21 -0600
+curl (7.70.0-1) stable; urgency=low
+
+  * curl 7.70.0 slim package compiled with gnutls
+
+ -- Fernando Ortiz <nandub+appimage@nandub.info>  Mon, 14 Dec 2020 12:18:49 -0600
 curl (7.69.1-1) stable; urgency=low
 
   * curl 7.69.1 slim package compiled with gnutls
@@ -258,11 +288,6 @@ curl (7.29.0-1) stable; urgency=low
   * curl 7.29.0 slim package compiled with gnutls
 
  -- Fernando Ortiz <nandub+appimage@nandub.info>  Sun, 5 Apr 2020 20:28:41 -0500
-curl (7.28.1-1) stable; urgency=low
-
-  * curl 7.28.1 slim package compiled with gnutls
-
- -- Fernando Ortiz <nandub+appimage@nandub.info>  Sun, 5 Apr 2020 20:25:57 -0500
 curl (7.28.0-1) stable; urgency=low
 
   * curl 7.28.0 slim package compiled with gnutls
@@ -288,11 +313,6 @@ curl (7.24.0-1) stable; urgency=low
   * curl 7.24.0 slim package compiled with gnutls
 
  -- Fernando Ortiz <nandub+appimage@nandub.info>  Sun, 5 Apr 2020 20:12:44 -0500
-curl (7.23.1-1) stable; urgency=low
-
-  * curl 7.23.1 slim package compiled with gnutls
-
- -- Fernando Ortiz <nandub+appimage@nandub.info>  Sun, 5 Apr 2020 20:10:11 -0500
 curl (7.23.0-1) stable; urgency=low
 
   * curl 7.23.0 slim package compiled with gnutls
@@ -303,51 +323,11 @@ curl (7.22.0-1) stable; urgency=low
   * curl 7.22.0 slim package compiled with gnutls
 
  -- Fernando Ortiz <nandub+appimage@nandub.info>  Sun, 5 Apr 2020 20:05:06 -0500
-curl (7.21.7-1) stable; urgency=low
-
-  * curl 7.21.7 slim package compiled with gnutls
-
- -- Fernando Ortiz <nandub+appimage@nandub.info>  Sun, 5 Apr 2020 20:02:25 -0500
-curl (7.21.6-1) stable; urgency=low
-
-  * curl 7.21.6 slim package compiled with gnutls
-
- -- Fernando Ortiz <nandub+appimage@nandub.info>  Sun, 5 Apr 2020 19:59:58 -0500
-curl (7.21.5-1) stable; urgency=low
-
-  * curl 7.21.5 slim package compiled with gnutls
-
- -- Fernando Ortiz <nandub+appimage@nandub.info>  Sun, 5 Apr 2020 19:57:33 -0500
-curl (7.21.4-1) stable; urgency=low
-
-  * curl 7.21.4 slim package compiled with gnutls
-
- -- Fernando Ortiz <nandub+appimage@nandub.info>  Sun, 5 Apr 2020 19:55:04 -0500
-curl (7.21.3-1) stable; urgency=low
-
-  * curl 7.21.3 slim package compiled with gnutls
-
- -- Fernando Ortiz <nandub+appimage@nandub.info>  Sun, 5 Apr 2020 19:52:49 -0500
-curl (7.21.2-1) stable; urgency=low
-
-  * curl 7.21.2 slim package compiled with gnutls
-
- -- Fernando Ortiz <nandub+appimage@nandub.info>  Sun, 5 Apr 2020 19:50:34 -0500
-curl (7.21.1-1) stable; urgency=low
-
-  * curl 7.21.1 slim package compiled with gnutls
-
- -- Fernando Ortiz <nandub+appimage@nandub.info>  Sun, 5 Apr 2020 19:48:13 -0500
 curl (7.21.0-1) stable; urgency=low
 
   * curl 7.21.0 slim package compiled with gnutls
 
  -- Fernando Ortiz <nandub+appimage@nandub.info>  Sun, 5 Apr 2020 19:45:51 -0500
-curl (7.20.1-1) stable; urgency=low
-
-  * curl 7.20.1 slim package compiled with gnutls
-
- -- Fernando Ortiz <nandub+appimage@nandub.info>  Sun, 5 Apr 2020 19:43:40 -0500
 curl (7.20.0-1) stable; urgency=low
 
   * curl 7.20.0 slim package compiled with gnutls

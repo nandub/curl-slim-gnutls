@@ -5,6 +5,8 @@
 # https://github.com/probonopd/AppImages/issues/187
 # https://launchpad.net/~djcj/+archive/ubuntu/libcurl-slim
 
+source scl_source enable devtoolset-8
+
 rm -f /files/*_i686 /files/*_x86_64
 
 set -e

@@ -1,22 +1,31 @@
 FROM centos:6.7
 LABEL maintainer "Fernando Ortiz <nandub+appimage@nandub.info>"
 
+COPY centos6_eolfix /centos6_eolfix
+WORKDIR /centos6_eolfix
+RUN ./setup
+
 RUN yum -y install \
     bzip2 \
     file \
-    gcc \
-    gcc-c++ \
-    make \
-    libgcrypt-devel \
+    devtoolset-8-gcc \
+    devtoolset-8-gcc-c++ \
+    glibc-devel \
+    glibc-devel.i686 \
     gnutls-devel \
+    gnutls-devel.i686 \
+    libgcrypt-devel \
+    libgcrypt-devel.i686 \
+    make \
     perl \
+    perl-File-FcntlLock \
     tar \
     wget \
-    && yum -y install libgcc.i686 \
-    libgcrypt-devel.i686 \
-    glibc-devel.i686 \
-    gnutls-devel.i686 \
-    zlib-devel.i686
+    which \
+    zlib-devel \
+    zlib-devel.i686 \
+    && scl enable devtoolset-8 -- bash \
+    && yum clean all
 
 WORKDIR /root
 

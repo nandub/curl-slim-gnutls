@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+# Taken from https://www.getpagespeed.com/server-setup/how-to-fix-yum-after-centos-6-went-eol
+
+cat centos6.7-eol.repo > /etc/yum.repos.d/CentOS-Base.repo
+cat centos6-epel-eol.repo > /etc/yum.repos.d/epel.repo
+cat centos6-scl-eol.repo > /etc/yum.repos.d/CentOS-SCLo-scl.repo
+cat centos6-scl-rh-eol.repo > /etc/yum.repos.d/CentOS-SCLo-scl-rh.repo
+
+echo Changed repos to fix centos 6 eol to centos 6.7 vault.
